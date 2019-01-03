@@ -1,0 +1,2257 @@
+USING JAVASCRIPT IN OUR BROWSER.
+(We will make use of an external javaScript page here.)
+
+We are learning how to start targetting the browser. because the browser is an operating system. just like we write applications that run in windows, we write applications that are websites. that run inside the browser.
+All the code that we write is targetting the browser & it gives us many objects that we can use to not only access the browser, but also manipulate things within the page.
+
+The browser gives us a heirarchy of objects. & at the top of this heirachy is the windows.
+
+
+there are 2 levels of scope
+
+1. The functional scope (which anything defined inside a function is only accessible from there.)
+2. Global scope (where anything defined as global is accessible throughout the entire web page). whenever you define a global variable or function, you are actually creating a property or method of the window object. eg:
+
+let's create a global variable called foo:
+
+
+var foo = "hello, window";
+
+alert(window.foo);
+
+
+
+
+we get the 		"alert(window.foo)"	 message. 	And the reason why this happens is that we created foo as global & therefore it gets attached to the window object which is our global scope or object.
+
+we can use the foo variable by specifying (window.foo). but we typically don't want to do that because window is automatically implied for us. 
+
+in the case of "foo", we can just use the foo variable, and the code will still work. e.g below:
+
+
+var foo = "hello, window";
+
+alert(foo);
+
+
+
+we can specify (window.foo) if we want to, but most of the time we don't.
+
+If window is being implied for our "foo" variable, it makes sense to say windows is also implied for our alert function. The alert function is actually a method of the window object. eg:
+
+
+var foo = "hello, window";
+
+window.alert(foo);
+
+
+
+WE HAVE BEEN USING THE WINDOW OBJECT ALL THESE TIMES. IT HAS JUST BEEN HIDDEN FROM US.
+
+ parseInt and parseFloat were used to convert strings to numbers. these 2 are actually methods of the window object.
+
+ wimdow.parseInt()
+ window.parseFloat()
+
+ but we typically don't want to specify the window object, becsuse it is automatically implied for us.
+ But there are some times where it makes sense to specify the window object. like when we want to explicitly access a global variable. eg.
+
+ let's create a function called "bar". inside of this function, we will create a "foo" variable & call it "hello, function"
+
+ foo is being created as a local variable to the bar function, it is overriding the global foo variable.
+
+ if we call alert(foo)  we will see the value "hello, function" inside of the alert bar.
+
+
+
+
+ var foo = "hello, window";
+
+ var bar = function() {
+ 	var foo = "hello, function";
+
+ 	alert(foo);
+};
+
+bar();
+
+
+
+
+by accessing the global foo variable, we do that by specifying  alert(window.foo)
+
+
+
+
+var foo = "hello, window";
+
+ var bar = function() {
+ 	var foo = "hello, function";
+
+ 	alert(window.foo);
+};
+
+bar();
+
+
+
+
+In the case of overriding variables inside of a function, we can use the window object to access those global variables that have a same name.
+
+Here's a thing about global variables & functions, (we don't want to use them) . because they are global, they are accessible not only by our code, but by code that we bring in from someone else.
+let's say we find some cool effect that we want to use, maybe from jquerry. but we want to use it, it's javascript driven. So what we do is to add a refference to that javascript source file into our web page. eg:
+
+// someone else's code
+their code uses a global variable called foo & it assigns it a value of 10.
+
+var foo = 10;
+
+but we already have a global variable of foo & our code is dependent upon this foo variable.		var foo = "hello, window";		.being a string & having some type of value that means something to us.
+But at the same time the 3rd party's code uses a global variable of foo. so they're depending on that being a number.	So either their code or our code will break based upon whose code get loaded first .
+
+ in this case, their code will load after ours, & they will overwrite our foo variable with a value of 10, thereby breaking our code. 
+ So what we do is using an "immediately invoked function" & we put our code inside of this function. So whenever this code executes, all of our variables will be treated as local functions to that immediately invoked function, thereby protecting our code from being overwritten by anyone else's code.	eg.
+
+ In order to execute an anonymous function, what we do is specify ()  at the end of the function declaration
+
+So we wrap the function keyword inside a set of parentheses
+
+
+
+(function() {
+	
+var foo = "hello, window";
+
+ var bar = function() {
+ 	var foo = "hello, function";
+
+ 	alert(window.foo);
+};
+
+bar();
+
+
+}());
+
+
+
+
+This makes the foo variable & the bar function no longer globally accessible . they are completely protected because they are inside of our immediately invoked function. the advantage of using this is that everything inside of it is protected from outside interference.
+
+Any 3rd party code carrying a foo variable will not do anything to our code. When we load the page 	(window.foo) will display a value of undefined. because it no longer exists.
+
+
+
+// CONFIRM DIALOUGE BOX
+
+//THE WINDOW OBJECT gives us 3 dialouge boxes.
+1.alert
+2.confirm
+3.prompt (is used to prompt users for input. so they can type something into a box & we get that value). but there is a much better way of getting input from the user, so we won't talk about prompt.
+
+
+// confirm()	dialouge box
+// it's purpose is to present the user to make a yes or no choice. So it displays a message that we specify, & then whatever value that the user chooses. which is "okay" or "cancel"  (in our case it will be true or false). Then we can do something based upon their decision.eg:
+
+we use the confirm method a lot like alert, excepts that it returns the value. So we just have to pass in a question to the confirm method. & it will display that dialouge box for us.
+
+whatever the user chooses will be "okay" or "cancel" & it will return a boolean value, then we will do something whether or not the user wants to go to google.com
+
+
+
+(function () {
+	
+if (confirm("Do you want to go to Google.com?")) {
+	alert("we'll take you there.");
+} else {
+	alert("You'll stay here");
+
+}
+
+}());
+
+
+
+// Location Object
+It is a property of the window object. It gives us access to the location textBox within the browser. we can get the value of the location bar or we can set the value which will actually take the browser to whatever url that we specify.
+
+
+var href = location;
+
+alert(href);	
+
+
+////
+
+
+
+(function () {
+
+var href = location;
+
+alert(href);
+	
+if (confirm("Do you want to go to Google.com?")) {
+	alert("we'll take you there.");
+} else {
+	alert("You'll stay here");
+
+}
+
+}());
+
+
+
+If they choose okay, then let's take them there with thisode below:
+
+
+
+(function() {
+	
+if (confirm("Do you want to go to Google.com?")) {
+	location = "http://www.google.com";
+} else {
+	alert("You'll stay here");
+
+}
+
+}());
+
+
+
+we can also use the confirm method to give the user a decision to do something. in the case of a web application where we need to delete something from a database. through javascript, we can prompt them saying "are you sure you want to delete this record"
+
+
+
+///THE DOCUMENT OBJECT.
+//The browser is made up of a heirachy of objects & at the top is the window object. THE DOCUMENT Object is directly beneath the window object in the heirachy of objects.
+
+//DOM is the Document Object Model(is a set of objects that we use in order to access the individual elements within the page. we can manipulate them by changing their content & their style). We can also use the DOM to dynamically add elements to the page or we can even remove them if we need to. 
+The DOM is where we spend most of our time when writing javascript. Because if we are writing javascript, we are writing it to interact with the web page in some way.
+
+We will start looking at the DOM by seeing how we can access elements within a page. Because there are several ways that we can do so.
+
+why we put our scripts at the buttom of the page is to allow the browser completely load those elements so that we can access those elements.
+
+in index.html, let's select all the pElements regardless of how they are nested. we want to get not only the four inside of the body, but we also want to get the pElement in the div element
+
+
+//THE getElementsByTagName returns what looks like an Array, but it isn't an Array . It is a special type of object called the    NodeList.
+//THE NodeList object is given to us by the DOM API.
+what is special about the NodeList is that they are live.
+They are a live representation of the elements within a document. We can use Ndelists a lot like we use Arrays
+
+whenever we call getElementsByTagName & specify "p" , it is going to retrieve all of the pElements
+
+
+
+(function() {
+	
+var pElements = document.getElementsByTagName("p");
+
+alert(pElements.length);
+
+}());
+
+
+
+Just like Arrays, We can also use a loop to loop over them:
+
+
+
+(function() {
+	
+var pElements = document.getElementsByTagName("p");
+
+for (var i = 0, len = pElements.length; i < len; i = i + 1){
+	alert(pElements[i]);
+}
+
+
+}());
+
+
+
+ObjectHTMLparagraph element is actually the name of a paragraph element. an we'll get it 5 times in the browser(when we click)
+
+// If we want to retrieve the pElement inside of the div 
+element.
+since it is the last pElement in the document & it is the last element in our NodeList, we can just create another variable called		lastPElement.
+
+so we give the pElement an id to make the work easier
+
+instead of using the getElementsByTagName		we use the getElementsById & a string value containing the id
+
+
+
+(function() {
+	
+var pElement = document.getElementById("foo");
+
+alert(pElement);
+
+}());
+
+
+
+THERE'S A BETTER CODE BELOW.
+if we change the value of the id, we get "Null"
+
+Use the "if" statement to ensure that you indeed have an element to work with
+
+
+
+A much better way instead of using getElementsByTagName & getElementById 		is to use css Queries. we do so by using two different methods.
+1.querrySelector 	.this will return the first element that matches whatever querry that we specified. eg
+
+var pElement = document.querySelector("p");.
+
+
+// this will find the first pElement in the document & return it to pElement.
+
+// EVERYTHING IN THE DOM IS A NODE. WE HAVE element Nodes, attributes Node, comment Node, Document Node, etc. 
+Every object in the DOM has properties & because of which they are all Nodes. one of those properties is the 			parentNode	(this will get the pElement & it will get it's parent which is the body. then we use an element called tagName)
+
+so when we run this code , we see "body" in the alert box
+
+
+
+(function() {
+	
+var pElement = document.querySelector("p");
+
+alert(pElement.parentNode.tagName);
+
+}());
+
+
+
+*****TO SELECT ALL OF THE PELEMENTS WITHIN THE DOCUMENT, WE WILL DO SO using the 	querySelectorAll	method
+
+
+
+(function() {
+	
+var pElement = document.querySelectorAll("p");
+
+alert(pElement.length);
+
+}());
+
+
+
+IT WILL SELECT ALL OF THE PeLEMENT
+
+we get the value of 5
+
+/// How to select a pElement inside of a div element
+
+var pElement = document.querySelectorAll("div p");
+
+
+
+
+(function() {
+	
+var pElement = document.querySelectorAll("div p");
+
+alert(pElement.length);
+
+}());
+
+
+
+we will get a value of 1. because there is only 1 of this in our document
+
+**getElementId() is faster than querySelector()
+
+
+
+using a cssQuery for a getDocumentById method.
+
+
+
+(function() {
+	
+var pElement = document.querySelector("#foo");
+
+alert(pElement.parentNode.tagName);
+
+}());
+
+
+
+We  will get DIV in the browser.
+
+THE ABOVE ARE WAYS THAT WE CAN FIND ELEMENTS WITHIN A DOCUMENT.
+
+
+
+
+//HOW TO DYNAMICALLY ADD CONTENTS TO A WEB PAGE AFTER IT HAS BEEN LOADED IN A BROWSER.(we are using   index.html   here) (THIS CHANGES ARE NOT PERMANENT AND WILL NOT BE SAVED IN THE HTML). these are just done while the pages is loaded into the browser.
+whenever the browser navigates through different page & then goes back to the page, the same javascript has to execute. these changes are just there in memory for as long as that page is in the browser.
+
+we will use the html document that we used in the previous lesson.
+
+if we want to add another paragragh element to the body, we will add it at the very end of the document.
+in our javascript file, we simply do that by using some DOM methods.
+
+first we create a variable to store this element object that we are going to create.
+because we create the element, then add it to the document
+(we don't create and add or add & create).
+we need to sort it in a variable so that we can access that element object to give it some attributes or some other content & then we will add it to the document
+
+you can name your variable whatever you want to name it.
+
+we can also use div, h1, hr etc here: (the createElement only creates elements, it is not added to the document. To do that, we will do what we call appendChild).
+the getElementsBytagName method returns a live NodeList. which means any change that we make to the document regarding pElement should have all our recent updates. We will do that by saying:
+
+var pElements = document.getElementsByTagName("p");
+
+var el document.createElement("p");
+
+document.body.appendChild(el);
+
+e.g below
+
+
+
+(function() {
+	
+var pElements = document.getElementsByTagName("p");
+
+alert(pElements.length);	// 5
+
+var el = document.createElement("p");
+
+document.body.appendChild(el);
+
+alert(pElements.length);		// 6
+
+
+}());
+
+
+
+WHENEVER WE USE THE querrySelectorAll  , It returns a Nodelist, but it is not a live NodeList. it only returns the pElements that are within the documents at a time that this method was called. if we go back to the browser & refresh, we see a value of 5 used twice. so to update it we say:
+
+
+
+(function() {
+	
+var pElements = document.querySelectorAll("p");
+
+alert(pElements.length);	// 5
+
+var el = document.createElement("p");
+
+document.body.appendChild(el);
+
+pElements = document.querySelectorAll("p");
+
+alert(pElements.length);		// 6
+
+
+}());
+
+
+
+that's the difference between a querySelectorAll & getElementsByTagName  method
+
+
+// THE CREATION CODE.
+
+how to give an element a content. one of the ways to do that is by creating a textNode. (textNodes are pure text):
+
+content = document.createTextNode("<strong>text</strong>");
+
+
+and then we append it to whatever element that we want to append it to:
+
+el.appendChild(content)		of course, the element is being appended to the document.
+
+
+
+(function() {
+	
+var el = document.createElement("p")
+	content = document.createTextNode("<strong>This was dynamically created</strong>");
+
+el.appendChild(content);
+
+document.body.appendChild(el);
+
+
+}());
+
+
+
+it appears on the browser. if we click on view source, we won't see the changes made by javascript. but we'll see it in the developer tools. most of the developer tools keep records of changes made.
+
+// We have created some elements giving it content, so let's add some attributes. doing so is easy. we use the element object, and it has a method called setAttribute(& it accepts two arguements. 1. the name of the attribute that we want to set. 	2. the value that we want to set to that attribute)
+
+el.setAttribute
+
+
+
+(function() {
+	
+var el = document.createElement("p")
+	content = document.createTextNode("<strong>This was dynamically created</strong>");
+
+el.appendChild(content);
+el.setAttribute("align", "center");
+
+document.body.appendChild(el);
+
+
+}());
+
+
+
+
+and then the text aligns to the center.
+
+we can set elements attributes by id:
+
+
+el.id = "bar";	(we use id instead of p)
+
+
+****el.id = "bar";	//el.setAttribute("align", "center");
+
+
+
+LET'S ADD OUR ELEMENTS TO THE END OF THE DIV ELEMENT IN THE BODY OF THE BROWSER. it will be placed after our pElement with an id of foo.
+
+we'll first create a variable called pFoo
+
+pfoo = document.getElementById("pFoo");
+
+
+we have "document" several times in this code. under scope and identifier lookup, we are running this code inside of a function. So everytime we use "document", the javascript engine has to perform an identifier lookup for document.
+it first looks for document inside of the scope of this function. it does't find it, so it has to go up to the global scope, the window object where it will find the document identifier. WELL, THAT'S A LITTLE INEFFICIENT BECAUSE IT WILL BE NICE IF IT WILL BE ABLE TO FIND THE DOCUMENT IDENTIFIER WITHIN THIS LEVEL OF SCOPE:
+
+(right below the function,).
+
+We can do that by assigning a value or a variable called doc & give it a value of document. so we can now use the doc in place of document. & we will get the same result. and our code will exhibit a little bit faster.
+
+now that the doc identifier is used, it will be found right at the top 	Var doc = document, 
+
+the javascript engine wiil only have to do the lookup once
+
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	content = doc.createTextNode("<strong>This was dynamically created</strong>"),
+	pFoo = doc.getElementById("foo");
+	
+	el.appendChild(content);
+	el.id = "bar";
+
+	pFoo.parentNode.appendChild(el);
+
+
+}());
+
+
+
+
+// INSERT BEFORE METHOD.
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	content = doc.createTextNode("<strong>This was dynamically created</strong>"),
+	pFoo = doc.getElementById("foo");
+
+	el.appendChild(content);
+	el.id = "bar";
+
+	pFoo.parentNode.insertBefore(el, pFoo);
+
+
+}());
+
+
+if we go back to the browser, the top & buttom pElements will switch places.
+
+
+//REPLACE CHILD
+It replaces one element with another element.
+
+
+
+ (function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	content = doc.createTextNode("<strong>This was dynamically created</strong>"),
+	pFoo = doc.getElementById("foo");
+
+	el.appendChild(content);
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+
+}());
+
+
+In the browser, the "strong" element that was created will repkace the 		"<p id="foo">This is paragraph 5 in div.</p>"
+
+
+
+Always be mindful of the order in which you write codes.
+
+// INNER HTML PROPERTY.
+you don't have to create an element object to use the innerHTML property, all you have to have is an element object.
+we have one by creating the el object & the pFoo.
+
+it uses html as actual html & not as a text. so by using the <strong></strong>   tag, we will see a bolder text in our browser.
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	pFoo = doc.getElementById("foo");
+
+	el.innerHTML = "<strong>This was dynamically created</strong>";
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+
+}());
+
+
+
+Not only can we set the value, but we can also get the value. so if we want to, we can
+alert(el.innerHTML);
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	pFoo = doc.getElementById("foo");
+
+	el.innerHTML = "<strong>This was dynamically created</strong>";
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+alert(el.innerHTML);
+
+}());
+
+
+
+so we will see the text in the "strong" tag in our alert window
+
+
+we can use the innerHTML to modify the existing html.
+e.g:
+
+we are concatenating the strings.
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	pFoo = doc.getElementById("foo");
+
+	el.innerHTML = "<strong>This was dynamically created</strong>";
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+el.innerHTML = el.innerHTML + "<br/>this was, too";
+
+}());
+
+
+
+we have modified the html of that pElement.
+
+we can do it multiple times, by doing this 
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	pFoo = doc.getElementById("foo");
+
+	el.innerHTML = "<strong>This was dynamically created</strong>";
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+el.innerHTML = el.innerHTML + "<br/>this was, too";
+el.innerHTML = el.innerHTML + "<br/>this was, too 2";
+el.innerHTML = el.innerHTML + "<br/>this was, too 3";
+
+
+}());
+
+
+
+TO LIMIT the amount of accessing the DOM.
+we write a shorter code.
+
+
+
+
+(function() {
+	
+var doc = document,
+	el = doc.createElement("p")
+	pFoo = doc.getElementById("foo");
+
+	el.innerHTML = "<strong>This was dynamically created</strong>";
+	el.id = "bar";
+
+	pFoo.parentNode.replaceChild(el, pFoo);
+
+	var html = el.innerHTML;
+
+html = html + "<br/>this was, too";
+html = html + "<br/>this was, too 2";
+html = html + "<br/>this was, too 3";
+
+el.innerHTML = html;
+
+}());
+
+
+
+we don't have to create an element object to use innerHTML.we can use an existing element. so we get rid of all the codes that deals with the el.
+
+
+
+(function() {
+	
+var doc = document,
+	pFoo = doc.getElementById("foo");
+	
+
+	var html = pFoo.innerHTML;
+
+html = html + "<br/>this was, too";
+html = html + "<br/>this was, too 2";
+html = html + "<br/>this was, too 3";
+
+pFoo.innerHTML = html;
+
+}());
+
+
+
+so we get the pElement in the index.html
+
+
+to completely remove the element of a content using innerHTML. all we do is set it to an empty string
+
+pFoo.innerHTML = "";
+
+
+
+(function() {
+	
+var doc = document,
+	pFoo = doc.getElementById("foo");
+	
+
+	var html = pFoo.innerHTML;
+
+html = html + "<br/>this was, too";
+html = html + "<br/>this was, too 2";
+html = html + "<br/>this was, too 3";
+
+pFoo.innerHTML = "";
+
+}());
+
+
+
+// MODIFYING ELEMENT STYLE. (we will use   modif.html   page here.)
+
+THE FIRST way that we can change an element style is by using an object or a property that laps directly to this style attribute.
+So the first thing we need to do is to get this elements in our codes:
+
+first we create a variable called divFoo
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+
+	divFoo.style.color = "blue";
+
+}());
+
+
+
+we changed the text color to blue through javascript.
+we can use the style property to set any any css value that we want.
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+
+	divFoo.style.color = "blue";
+	divFoo.style.border = "1px solid black";
+
+}());
+
+
+
+the div element now has a border. 1px, solid.
+	//NOTE. background-color is written as backgroundColor in javascript. & other words that has an hyphen as well
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	style.color = "blue";
+	style.border = "1px solid black";
+	style.backgroundColor = "#ffff00";
+	style.padding = "2px";
+
+}());
+
+
+
+//padding is 2px on every edge. And it now has a backGround Color of yellow.
+
+
+the style object directly references the style attribute within html.
+ the css style can be set through the style in javascript, html, style sheet.
+
+
+The style property is just one way that we can change an element's style. using the style property, we can change individual css properties.
+
+
+// changing multiple css properties all at one time. try the method below. we need to store all our css properties within a style sheet for easy accessibility.
+
+USING THE CSS CLASS
+
+To access the class property, we simply use the "className"
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = "css-class";
+
+	alert (style.color);
+
+}());
+
+
+
+we will get the same result as the previous code.
+
+
+SETTING MULTIPLE CSS ATTRIBUTES FOR AN ELEMENT.(it is done by simply putting a space in between those classes)
+				"css-class css-class2";(both classes are in the HTML)
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = "css-class css-class2";
+
+	//alert (style.color);
+
+}());
+
+
+
+We have added css-class2 in our HTML. So if we reload the browser, we will get a bolder text. 
+
+Removing a css class
+
+divFoo.className = divFoo.className.replace(" css-class2 ", "");
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = " css-class css-class2 ";
+	divFoo.className = divFoo.className.replace(" css-class2 ", "");
+
+	//alert (style.color);
+
+}());
+
+
+
+the text is no longer bold because we have removed css-class2
+
+
+// HOW TO GET STYLE INFORMATION FROM AN ELEMENT
+
+browsers that supports these standards(chrome, opera,firefox, safari, IE9)		& Legacy IE.(IE8 & below)
+
+
+
+// STANDARD BASED CODES
+Standard based browsers use a method called "getComputedStyle".
+it is a method of the window object.
+
+window.getComputedStyle (it can be called without specifying window. because window is automatically implied. but usally, you'll see window used)
+
+the getComputedStyle method accepts 2 arguements  1. the element object that we want to retrieve  2. a string value specifying a suited element to match.
+
+
+window.getComputedStyle(divFoo, null).getPropertyValue("color");		.we specify a css value that we want to retreive (which is color)
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = " css-class css-class2 ";
+	
+	var color = window.getComputedStyle(divFoo, null).getPropertyValue("color");
+
+	alert(color);
+	
+
+	//alert (style.color);
+
+}());
+
+
+
+Rgb is the computed value.
+
+//FOR LEGACY BROWSERS.	
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = " css-class css-class2 ";
+	
+	var color = divFoo.currentStyle["color"];
+	alert(color);
+	
+	
+	//alert (style.color);
+
+}());
+
+
+
+//GET STYLE FUNCTION
+IT WILL ACCECPT TWO ARGUEMENTS 1. the first one that we want to style 		2. the css value that we want to get the property of .
+
+
+we will use the feature detection to see if the browser supports the getStyle method. (we always want to check for stsndard compliance so that we can use the standard based codes)
+
+
+
+
+(function() {
+	
+	var divFoo = document.getElementById("foo");
+		style = divFoo.style;
+
+	divFoo.className = " css-class css-class2 ";
+	
+	var getStyle = function(el, cssProperty) {
+		if (typeof getComputedStyle !== "undefined") {
+		return window.getComputedStyle(el, null).getPropertyValue(cssProperty);
+	} else {
+		return el.currentStyle[cssProperty];
+	}
+};
+
+var color = getStyle(divFoo, "color");	
+	
+	alert (color);
+
+}());
+
+
+
+We get   rgb(0, 0, 225) in our browser.
+
+
+
+	// TIMERS AND ANIMATION.   (we will use   manip.html)
+	One of the keys to unlocking animations is manipulating styles.
+if you have a moving element accross a page, then you are manipulating the element's top & left.
+Grow or shrink, then your'e manipulating the element's height & width, 
+
+.another important key is to perform those manipulations gradually, so that there is a delay in between these manipulations. without a delay, the movement will happen so fast that it will appear instanteneous. we have to put the delay so we can see the change from one frame to the other.
+
+SET TIMEOUT & SET INTERVALS ARE USED TO CREATE ANIMATIONS.
+
+
+// SET TIMEOUT FUNCTION.
+This is a global function, so it is a method of the window object
+
+setTimeout executes a function on delay. & the delay is for whatever amount of time that we want. we put the doSomething function object & whatever amount of time beside it. the amount of time is in mili-seconds
+
+
+
+(function() {
+	
+var doSomething = function() {
+	console.log("doSomething() executed");
+	
+};	
+
+setTimeout(doSomething, 2000);
+
+}());
+
+
+
+doSomething comes up after 2 secs of reload
+
+
+
+THE SETTIMEOUT ONLY DELAYS THE EXECUTION OF THE FUNCTION THAT WE HAVE SPECIFIED. It doesn't delay the execution of the rest of our code. eg:
+
+
+
+(function() {
+	
+var doSomething = function() {
+	console.log("doSomething() executed");
+	
+};	
+
+setTimeout(doSomething, 2000);
+
+alert("hello");
+
+}());
+
+
+
+the alert will pop up when we load, then 2 secs after we click "ok", do something will show up.
+
+we are not delaying all of our code. WE ARE JUST DELAYING THE FUNCTION THAT WE HAVE SPECIFIED.
+
+
+another method (it will set another timeout for doSomething for 2 secs). So we get ourselves into a loop that iterates every 2 secs
+
+
+
+(function() {
+	
+var speed = 2000,
+	doSomething = function() {
+	console.log("doSomething() executed");
+	
+	setTimeout(doSomething, speed);
+};	
+
+setTimeout(doSomething, speed);
+
+
+
+}());
+
+
+
+
+how to get out of a setTimeout loop.(There are 2 ways)
+1. A counter
+
+
+
+(function() {
+	
+var speed = 500,
+	i = 0,
+	doSomething = function() {
+		console.log("doSomething() executed " + (i + 1) + " times");
+	i = i + 1;
+
+	if (i < 10) {
+	setTimeout(doSomething, speed);
+	}
+};	
+
+setTimeout(doSomething, speed);
+
+
+
+}());
+
+
+
+We will get the msg in the console log 10 times & this breaks out of the loop.
+
+
+
+
+THE PURPOSE of setTimeout is to define the execution of a function one time. it is not designed to repeatedly call the same function with a set time delay.
+
+
+WE ALSO HAVE ANOTHER FUNCTION CALLED SETINTERVAL. It is just like setTimeout, except that we are not deferring the execution 
+
+
+
+(function() {
+	
+var speed = 500,
+	i = 0,
+	doSomething = function() {
+		console.log("doSomething() executed " + (i + 1) + " times");
+	i = i + 1;
+
+	if (i < 10) {
+	}
+};	
+
+var timer = setInterval(doSomething, speed);
+}());
+
+
+
+This doesn't stop counting.(it goes past 10), except we clear the interval.
+
+so we have a function called clearInterval(it is similar to clearTimeout)
+
+
+
+(function() {
+	
+var speed = 500,
+	i = 0,
+	doSomething = function() {
+		console.log("doSomething() executed " + (i + 1) + " times");
+	i = i + 1;
+
+	if (i > 9) {
+		clearInterval(timer);
+	}
+};	
+
+var timer = setInterval(doSomething, speed);
+}());
+
+
+
+
+The counter will stop at 10(we have now cleared the interval we created by calling setInterval)
+
+
+	WE USE THE SETTIMER FUNCTION TO DEFFER THE EXECUTION OF A FUNCTION. & WE USE THE THE SETINTERVAL FUNCTION TO REPEATEDLY CALL A  FUNCTION WITH A TIME DELAY
+
+
+/// HOW TO USE THE SETINTERVAL FUNCTION TO PERFoRM ANIMATION
+
+
+There is a box in the html & we want to animate it to the right. so we want to manipulate it's left style property. so we change it until it reachs a particular point.(it will get to a left position of 400).
+
+offsetLeft will get the position in relation to the body element. if it was positioned in a  parent element, it will get the left psition of that element
+
+SAME AS ofsetTop
+
+
+
+(function() {
+	
+var speed = 10,
+	moveBox = function() {
+		var el = document.getElementById("box"),
+		left = el.offsetLeft,
+		moveBy = 3;
+
+		el.style.left = left + moveBy + "px";
+
+		if (left > 399) {
+			clearTimeout(timer);
+		}
+	};	
+
+var timer = setInterval(moveBox, speed);
+}());
+
+
+
+let's make it a little more interesting.
+let's make the box return back to a specified boundary left when it reaches it's specified position.
+
+To do that, we will modify our code.(the first thing we will modify is our moveBy value. IF THE VALUE is positive, we move to the right,  IF IT IS negative, we move to the left). So we will specify moveBy as a parameter.
+
+		moveBox = function(moveBy) {
+
+& we use an anonymous function. 
+
+var timer = setInterval(function () {
+		moveBox(3);
+	}, speed);
+
+e.g.
+
+
+
+(function() {
+	
+var speed = 10,
+	moveBox = function(moveBy) {
+		var el = document.getElementById("box"),
+		left = el.offsetLeft;
+	
+
+		if ((moveBy > 0 && left > 399) || (moveBy < 0 && left < 51)) {
+			clearTimeout(timer);
+			timer = setInterval(function() {
+				moveBox(moveBy * -1);
+			}, speed);
+		}
+
+		el.style.left = left + moveBy + "px";
+	};	
+
+var timer = setInterval(function () {
+		moveBox(3); 
+	}, speed);
+}());
+
+
+
+THIS IS JUST ONE OF THE WAYS THAT WE CAN DO ANIMATIONS USING JAVASCRIPT. WE CAN do animations using different logic. we could also base an animation on an amount of steps.
+
+
+
+
+// EVENTS.	(We will use manip.html here)
+Events might be clicking a mouse button or pressing a key on the keyboard. or even just moving the mouse around on a page. so we typically want to do something based upon that event that occured.
+EVENTS ARE IMPORTANT PARTS OF JAVASCRIPT. Because they are a huge part of what we do within the browser.
+
+Example:
+whenever I click on this element, this box will change color from blue to red. I will code what listens to whenever a user clicks on this element. & when they do, it changes this element to red.
+
+WE USE the onClick event handler for the click event & whenever someone clicks on the event handler, it will execute & it is nothing more than a function.  But inside of the function, we use the 'this' keyword to refer to the element object that this event handler is for. We use the "style" object & we set the background color to "red"
+
+
+another e.g.  if you have used google, then you have seen two things. 1. the instant search whenever you start typing & also the suggestions that occur whenever you start typing. THIS IS ALL based on events.(whenever you start typing, those are events that takes place). Engineers wrote code to handle this key events.
+ALl of the sugestions is possible because events allows the developer to interact with whatever we are doing with the webpage. otherwise we won't have an interesting exprience with google search engine.
+
+So let's look at how we can use events within our webpage. We'll first look at our HTML & we will use an event handler called onLoad because every browser has an event called "load" that fires or execute whenever the browser has finished loading the page. And it is actually a prpperty of window (window.onLoad). & then we will assign a function to execute whenever a load event fires
+
+So now it will be able to find this element with an id of "box"	and set it's event handlers.
+
+
+
+(function() {
+	
+window.onload = function() {
+	var el = document.getELementById("box");
+
+	el.onClick = function() {
+		this.style.backgroundColor = "red";
+	};
+};	
+}());
+
+
+
+If we reload the page & click on the blue box, the color will change to red.
+
+
+
+(we will use 	eventschangebkg1.html)
+ let's do a simple style switcher. It will be a little bit more exciting than changing the backgroun color of an element. & we will do so by changing the className. We will change the "class" of the body so that we will have a normal class. We will give the normal class a backgroundColor of white & a textcolorof black
+
+ background-color: white;
+ color: Black;
+ 
+
+So, let us setup these events. so that whenever the button elements are clicked, they will do something
+
+
+
+
+
+let's do something a little bit complicated & interesting.
+let's first create a variable called buttons & let's use the document.getElementByTagName method. so that we are getting all of the buttons within this document.
+
+var buttons = document.getElementByTagName("button");
+& we will use a loop  for (var i = 0, len =).......
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	buttons[i].onclick = function() {
+		alert("hello");
+	};
+}
+
+}());
+
+
+ 
+
+In the browser, if we click on these buttons, we get an alert saying "hello"
+
+
+NOW WE NEED TO DETERMINE which button is clicked on and change the className to the appropriate className in the html. (normal matches the normal class , so do changed)
+
+so we lowercase the buttons normal & changed.
+
+we could get these values that is contained within the button element, lowerCase them & then use those as the className. We will use the innerHTML propety to do that.
+
+var className = this.innerHTML.toLowerCase();
+
+(this isn't the best solution, but for this particular demonstration, this will work fine).
+BELOW, we'll create a variable called className & use the "this variable", because we are referring to "this button" & then innerHTML.tolowerCase(this will get the value of "changed" & "normal" & then make them lowerCase)
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	buttons[i].onclick = function() {
+		var className = this.innerHTML.toLowerCase();
+
+		document.body.className = className
+	};
+}
+
+}());
+
+
+
+In the browser, If we click on "normal" & "changed". IT changes the  style of the body.
+
+
+
+THE EVENT HANDLERS THAT WE HAVE BEEN USING FOR THE ABOVE EXAMPLES ARE CALLED DOM LEVEL 0 EVENT HANDLER(they are called the level 0 because they have been existing before any other DOM standards existed).IT IS VERY GOOD BECAUSE every browser supports DOM level 0 handler. THere are newer ways to do them(THERE IS A STANDAD WAY & THE LEGACY IE way. but not all browsers supports this  ways. so we always have to fall back to the DOM level 0)
+
+
+If we want to execute multiple functions for the onClick event handler		buttons[i].onclick = function() 	, we can't. eg setting another button click event for a link.
+
+
+we will talk about that in the next lesson.
+
+
+
+
+(we will use  eventschangebkg1.html)
+// STANDARD EVENT MODEL (how we add and remove event handlers as well as get information about an event whenever one takes place )
+
+we use the code we used in the previous lesson.
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	buttons[i].onclick = function() {
+		var className = this.innerHTML.toLowerCase();
+
+		document.body.className = className
+	};
+
+	buttons[i].onClick = function() {};
+}
+
+}());
+
+
+We used the Dom level 0 event handler to add a click event handler for every buttoned element within the page.
+
+the DOM level 0 event handler is a property on the DOM level itself it starts with "on", then event is whatever is after "on". which is "click".			so the will execute on the click event for each of these buttoned elements.
+
+The problem with the DOM level 0 is that they can be overwritten easily. all you have to is to assign a new value to the on the click event. and this breaks our code. because we are now  executing a function that doesn't do anything when we click on those buttons.
+
+This poses a problem because there are times when we want to execute multiple functions whenever an event occurs.
+THE STANDARD EVENT MODEL WAS DESIGNED TO TAKE THAT INTO ACCOUNT. let's look at how we can use the standard event model to give us this same functionality, but also gives us the flexibility of being  able to handle multiple pieces of codes to ececute when event occurs.
+
+Example
+
+we are really not going to notice much similarities btw the DOM level 0 event handler and the event handler that we setup using the standard event model. We do have to specify the object that we want to place an event handler on, & we have to have to have a function to execute whenever that event occurs.
+(the code used in the previous lesson, below)
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	buttons[i].onclick = function() {
+		var className = this.innerHTML.toLowerCase();
+
+		document.body.className = className
+	};
+
+	buttons[i].onClick = function() {};
+}
+
+
+}());
+
+
+
+
+we specify the object that we want to place an event handler on & we must have a function that we have to execute when that event occurs.  then we call a method called addEventListener 	.and it will contain 2 arguements, but we typically put in 3. because of earlier browsers, we have to specify the 3rd argument.
+
+we are specifying "on" as we did with the DOM level 0, because the actual event is the "click". so we specify "click". the second arguement is the function that we want to execute whenever this event occurs. so we copy and paste the function that we already have(we don't want to execute this function,we just want to pass the function object ).
+the 3rd determines if we use capture. when we talk about capturing, we also have to talk about bubbling.
+
+way back in the 90s, there were just 2 browsers, (IE & netscape navigator). the 2 browsers were almost completely different from each other. there were similarities in their DOM, but other that, they were almost completely different.		if you wrote cross browser javascript back then you were considered a hero.
+
+Netscape used event capturing with it's event model:
+
+eg. if we click the normal button in our html, with event capturing, that click event originates at the document level.		so it originates at html so it propagates down to each ancestor of the button element until it gets to the button element that we clicked.(it goes through each tags). the button is known as the event target & if our target is nested btween multiple elements, then the click event will propagate down to those element until it gets to the target element.
+
+Event bubbling is the direct opposite of event capturing (it starts at the element that you have clicked on and then it propagates up until it goes to the document). This is what IE used. (from the button to the body, html)
+
+so whenever you do anything as far as an event is concerned, the event goes through 3 phases(capture phase, the event hiding the event target, the 3rd is the bubbling phase)
+
+true is for capturing, false is for bubbling.(but if you are writing cross browser script and targetting IE8, then specify false). Because IE8 & below do not support capturing. but bubbling
+
+
+buttons[i].addEventListener("click", buttonClick, false)
+
+some browsers allows you to ommit that 3rd arguement, but that is only a recent change so you will typically want to specify the 3rd:
+
+buttons[i].addEventListener("click", buttonClick,);
+
+buttons[i].addEventListener("click", buttonClick, false)
+
+
+if we go to the browser, we will get the same result as before.
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+var buttonClick = function() {
+		var className = this.innerHTML.toLowerCase();
+
+		document.body.className = className;
+};
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	
+	buttons[i].addEventListener("click", buttonClick, false);
+}
+
+}());
+
+
+
+since we are using add event listener, to execute when the button is clicked, let us pass in another function.
+
+buttons[i].addEventListener("click", function() {alert("hi");}, false);
+
+so when we click on any of the buttons in the html, the class name will be changed for the body element & we will also get the alert box.
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+var buttonClick = function() {
+		var className = this.innerHTML.toLowerCase();
+
+		document.body.className = className;
+};
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	
+	buttons[i].addEventListener("click", buttonClick, false);
+	buttons[i].addEventListener("click", function() {alert("hi");}, false);
+}
+
+}());
+
+
+
+MOST OF THE TIME, WE DON'T NEED TO REMOVE AN EVENT LISTENER.
+
+
+Being able to set multiple event handler for a single event is very nice
+
+
+whenever an event occurs, there is some information that we can retrieve. because sometimes, we need that information .		that info is passed to the function that we specified when calling add event listener.
+(it is passed as an arguement, so we just have to specify a parameter we can call this parameter anything, but I use (evt)		). one of the properties of this event is the "type" property & this gives us the type of event that occured.
+
+buttons[i].addEventListener("click", function(evt) {
+	var className = this.innerHTML.toLowerCase();
+}
+
+so when we do this
+
+alert(evt.type);
+
+we get the value of "click"		.
+eg below.
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].addEventListener("click", function(evt) {
+	var className = this.innerHTML.toLowerCase();
+
+	alert(evt.type);
+
+	document.body.className = className;
+}, false);
+	
+}
+
+}());
+
+
+
+the above info is very helpful as far as our code is concerned. but it will be helpful later on in the future(as we progress in javascript). in event delegation
+
+
+
+(we will use    eventschangebkg1.html)
+//target property.
+this is the element that received the events. on this case, this will be the button element.
+
+alert(evt.target);
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("button");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].addEventListener("click", function(evt) {
+	var className = this.innerHTML.toLowerCase();
+
+	alert(evt.target);
+
+	document.body.className = className;
+}, false);
+	
+}
+ 
+}());
+
+
+
+we can also get the same info using the "this variable".
+
+
+alert(this);	in place of 	 alert(evt.target);
+
+
+the target property is very helpful whenever we talk about
+ an event delegation.
+
+
+
+(we will use   prevdef.html  here)
+ The last thing we'll talk about is not a property, but a method.		it is called 	 preventDefault();
+ what this method does is to prevent the default action of the event for whatever element that that event is being fired on. the best way to demonstrate this is to use an aElement.
+
+ the href is set up to go to google.com. so naturally, whenever we click on the the links in the html, it'll take us to google.com. we'll kave to change the getElementsByTagNAme to get the aElement
+getElementsByTagNAme("a");.
+
+The evt.preventDefault();  method will prevent the browser from navigating to google.com whenever we click on the link.
+
+when we click changed, it is just going to change the background style of the body.
+the code below:
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].addEventListener("click", function(evt) {
+	var className = this.innerHTML.toLowerCase();
+
+	evt.preventDefault();
+
+	document.body.className = className;
+	}, false);
+}
+ 
+}());
+
+
+
+we talked about the standard event model which is implemented in chrome, firefox, opera, safari, & IE9 & above. 
+we will talk about the legacy IE event model in the next lesson.
+
+
+//LEGACY IE EVENT MODEL.
+(We are using   legacy.html   here)
+We will rehatch the information we talked about in the last lesson, except that we are going to do that within the context of Legacy IE (IE 8 & below). We will talk about how we can add and remove event handlers, we wil also talk about the event information that we can get whenever an event occurs. it is all the same concept, but it is just done in a different way.
+
+let us start by looking at the code. It is the code that we ended with in the previous lesson. We no longer have button elements, we now have aElement.
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+ 
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].addEventListener("click", function(evt) {
+	var className = this.innerHTML.toLowerCase();
+
+	evt.preventDefault();
+
+	document.body.className = className;
+	}, false);
+}
+ 
+}());
+
+
+
+BY default, the aElement in our html will take us to google.com. so we want to prevent that behavior.
+So will have to change the code to work with IE 8 & below.
+IE9 is rather unique in that it supports tthe standard event model & also the Legacy IE event model.
+
+I have changed my IE to IE9 mode to an IE8 mode.
+
+So let us setup these event handlers.
+we change the 	addEventListener to  	attachEvent.
+
+the arguments that we pass to addEventListener are similar to the ones we pass to attachEvent.
+
+(the 1st argument) we change this ("click", function(evt)
+to this  	to this ("onClick", function(evt) )
+
+the Legacy IE is a lot like the DOM level 0 event handlers "onClick"
+
+the second arguement is the function that we want to execute
+function(evt)
+
+And we don't have to specify a 3rd arguement. infact, there isn't a 3rd arguement.
+So we just have the event handler that we want to setup & the function that we want to execute when that event occurs.
+
+When that event occurs, we can retreive information about the event in 2 different ways.
+The event information can be passed as an arguement to this function just like we did in the previous lesson. but traditionally, we typically use a global object called "events" (events is a property of the window object).
+"event" is an object that is populated with all of the information regarding that event for every of it that occurs. (so whether you are ckicking your mouse button or moving your mouse around, pressing a key)it doesn't matter. this event object is created to give info about the info that occured.
+
+we can get 3 things that we could get or do with the event object.
+1. target
+2. type of event that occured
+3. gettung the target & then we could prevent the default behavior of that event for that target element.
+
+we can also do the same 3 things with IE's event object.
+
+to get the targetElement of this clickEvent, we don't use the target property as we used in the previous lesson. instesd, we use a propeerty cslled "srcElement"  .and it gives us the same information, we just used a different property name tp do it.
+"this" variable in the context of our event handler is actually the "window" object. so we can't use this to rfer to the aElement that we have attached this event.
+we will have to use  event.srcElement to get the actual aElement that we clicked on.
+
+the last thing is preventing the default behavior of the event for this element
+
+In the html, we have an aElement with an href of google.whose default behavior is to travel to that Url. so if we want to prevent that, we use a property called "returnValue = false;"  .it is the same as the preventDefault in the Standard Event Model.
+then we change the document's className.
+
+the code:
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].attachEvent("onClick", function(evt) {
+	var className = event.srcElement.innerHTML.toLowerCase();
+
+	event.returnValue = false;
+
+	document.body.className = className;
+
+
+	});
+}	
+ 
+}());
+
+
+
+ in the browser, if we click on the links, we'll get the results & it won't take us to google.com.
+
+ LET's look at how we can remove an event handler after we have set it to the add events handler method 'attachEvent"
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+
+var buttonClick = function(evt) {
+	var className = event.srcElement.innerHTML.toLowerCase();
+
+	event.returnValue = false;
+
+	document.body.className = className;
+	};
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	
+	buttons[i].attachEvent("onClick", buttonClick);
+	buttons[i].detachEvent("onClick", buttonClick);
+
+}
+
+}())
+
+
+
+we have covered the same information and we just did so using a different API
+
+IN THE next lesson, we will combine these 2 object models
+Standaed & Legacy
+
+
+// CROSS BROWSER EVENT HANDLING.
+(we are using  crossbrowser.html    here)
+we will combine the standard event model and the legacy IE event models.
+We will start by writing some functions and then we will refer to our code into a utility object that we can use.
+let's first create a function that we can set event handlers with regardless of what browser the user is using.
+
+we'll call this function   var addEvent =
+
+(whenever you write cross browser scripts, you have to be broad, because you have different pieces of information that you need in order to do what you need to do)
+
+In the case of certain event handlers, we basically have the same information. it is just organised in a little bit different way. The first thing we need is the html element object or the DOM object that want to set an event handler for. so we'll pass that as an arguement to our addEvent function. & we'll call that arguement "el"
+
+the 2nd is  the event type. we'll call that "type"
+
+the 3rd is the function that we want to execute whenever that event occurs. we'll call that "fn".
+
+then we need to determine what browser the user is using.
+& we do that by using "feature detection" :
+in the case of events code, we want to test for standards compliance first,  we always want to test for standard compliance because that's the standard.
+the reason why we want to do that is primarily because of internet explorer. (it has a track history of falling behind the rest as far as standards compliance is concerned)
+
+E.g
+IE9 supports the standard events model, then also support the legacy  IE event model
+
+
+we make sure that the "addEventListener" is available for us to use. we can also specify "window" or "object"
+
+var addEvent = function(el, type, fn) {
+	if (typeof addEventListener !== "undefined")
+}
+
+we have to make sure that it is not undefined & if it is not undefined, we can be relatively safe to assume that we can use the addEventListener identifier as a method.
+then we just need to call this method on the DOM object that we have passed to our addEvent method.
+we pass in the event "type" that we want to listen for 
+the function that we want to execute, then we need to specify if we want to capture or bubble.(Legacy IE does not support capture, it only supports bubbling & since we are writing cross browser event code, we want to use bubbling) so we will specify "false".
+
+so whenever there's a standard based browser, whenever we call addEvent & we pass in the DOM object, the event type & the function to execute, it will call "addEventListener"
+(top. stand)
+(buttom.leg)	
+
+!== "undefined"  means if it is not undefined.
+
+var addEvent = function(el, type, fn) {
+	if (typeof addEventListener !== "undefined")
+}
+
+Let's check for Legacy IE
+
+else if (typeof attachEvent !== "undefined")
+
+
+The type value that we passed to addEvtntlistener is different from the one passed to attachEventlistener.
+attachEvent has to have "on" & then the name of the event which is "+"
+
+we add the event type to our adddEvent function, then for attachEvent, we'll just prefix that with "on"
+
+el.attachEvent("on" + type, fn);
+
+In the case of IE9, if the code executes, it is going to first test if the browser supports addEventListener. then if it does, it is going to ececute this code:
+
+el.addEventListener(type, fn, false);
+
+& since the if  "(typeof addEventListener !== "undefined")"  condition was met, it will not try to evaluate the "else" condition because we have already met the "if" condition.
+so that way,IE9 uses the standard based code as opposed to the Legacy IE code.
+
+so if we come accross a browser that doesn't support either event model, we can be somewhat safe to assume that it supports DOM level ) event handlers. but we have to do so in a little bit of a different way, because doing 		el."on" +	 will give us an error.
+
+so we have to use a different syntax which we haven't discussed yet. That is using the [] & inside of the square bracket, we concatenate "on" + the event type, then we set that to whatever function that we have passed :
+		el["on" + type] = fn;
+
+And the reason why this works is because we can actually access properties in 2 different ways:
+
+1. the dot operator- obj.property
+2. we can also use the square bracket notation   [] . then we pass a string value inside of the [] . so we can access that same property by using []  & then the string of that property name.
+
+so that is why we aredoing it with this syntax here:
+
+	el["on" + type] = fn;
+
+so that we can concatenate "on" with type 	("on" + type), then we use the [] to access that same property & assign that function object to it.
+the code:
+This is for addEvent Function
+(addEvent, removeEvent, getTarget & prevent default are meant to be in the eventsutility.js)
+
+var addEvent = function(el, type, fn) {
+	if (typeof addEventListener !== "undefined") {
+		el.addEventListener(type, fn, false);
+	}else if (typeof attachEvent !== "undefined") {
+		el.attachEvent("on" + type, fn);
+	}else {
+		el.["on" + type] = fn;
+	}
+};
+
+///////////////////////////////////////////////////
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+
+var buttonClick = function(evt) {
+	alert("this works");
+};
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	addEvent(buttons[i], "click", buttonClick);
+}
+	
+}());
+
+/////////////////////////////////////////////////
+
+this is one approach that you can use in writingcross browser javascript, especially dealing with events. then you create the event utility object using object literal notation & specifying these methods using object literal notation. then we will have one object called the event utility & then it will have 4 methods that we can use within our code :
+
+
+
+
+
+(function() {
+	
+var buttons = document.getElementsByTagName("a");
+
+var buttonClick = function(evt) {
+	var target = eventUtility.getTarget(evt),
+		className = target.innerHTML.toLowerCase();
+
+	eventUtility.preventDefault(evt);
+
+	document.body.className = className;
+};
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	eventUtility.addEvent(buttons[i], "click", buttonClick);
+}
+	
+}());
+
+
+
+
+You can take a variety of approaches to write cross browser javascript. you could write code for lrgacy IE to emulate or at least crossly emulate the standard event model.
+
+these approach was very easy, all we had to do was create some helper functions & then make the them method of an object that we can use.
+
+
+
+////EVENT DELEGATION
+(We are using   changed.html   here)
+
+It is a special way of handling events thAt takes advantage of the browser's capability of bubbling events. we could use event capturing for event delegation, but not all browsers supports capturing namely, the Legacy versions of internet explorer. so we typically use bubbling.
+what is event bubbling?
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<a href="http://www.google.com">Normal</a>
+	<a href="http://www.google.com">Changed</a>
+</body>
+</html>
+ 
+ If we click on the aElement that says "changed", with event bubbling, the click event will originate, then it will bubble up through the ancestors of that element until it gets to the document objsct.
+ It starts at the aElement, then it goes to the bodyElement, then the html & that's where it stops. because that is as far as it bubbles. so no matter where we click on the document, the  document object will eventually receive that clickEvent.
+ So the idea of event delegation is to set an event handler at the document level for the clickEvent. then we examine the information from that event to determine the target & then we could do something based upon what that target is.
+ EVENT DELEGATION CODES:
+let's setup an event handler for the document object for the clickEvent.
+we will use our event utility object & the function that we want to execute whenever the event fires
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	alert("you clicked me");
+});
+
+}());
+
+
+
+In the browser, no matter where we click on the document, the alert box will pop up.
+
+Now we need to filter what we do when this event occurs based upon the element that we want to do something with:
+
+so, let us do something whenever we click an aElement.
+we first need to get the event target. so we'll create a variable called "target", then we pass in the event object, then we create a variable called "tagName" to store the target:
+var target = eventUtility.getTarget(evt)
+	tagName = target.tagName;
+
+	THE CODE:
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName;
+
+	if (tagName === "A") {
+		alert("you clicked an A element");
+		eventUtility.preventDefault(evt);
+	}
+});
+
+}());
+	
+
+
+when we reload the page and click on the links(aElement), an alert box comes up and we are not taken to google.com.
+
+let' go back to the code and finish changing the body's style. we don't need to alert anything, but we need to get the innerHTML of the aElement. so we'll create a variable called "className"
+
+var className = target.innerHTML.toLowerCase();
+eventUtility.preventDefault(evt);
+
+by the above code, we are already preventing the default action from occuring.
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName;
+
+	if (tagName === "A") {
+		var className = target.innerHTML.toLowerCase();
+		eventUtility.preventDefault(evt);
+		document.body.className = className;
+	}
+});
+
+}());
+	
+
+
+In the browser, whenever we click on the aElements, we get the desired result (the"changed" changes the background & the "normal" returns it back to normal).
+
+The Below code will make the "button" change the background:
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName;
+
+	if (tagName === "A" || tagName === "BUTTON") {
+		var className = target.innerHTML.toLowerCase();
+		eventUtility.preventDefault(evt);
+		document.body.className = className;
+	}
+});
+
+}());
+
+
+TALKING ABOUT WHAT WE HAVE GAINED FROM USING EVENT DELGATION.
+
+First of all, we have gained flexibility, because we are filtering what we do based upon the element that we have clicked on (the target of the clickEvent). 
+In this case, if it is an aElement, then we are using the innerHtml property & switching it to lowercase & then using that as a className for the body.
+
+var className = target.innerHTML.toLowerCase();
+		eventUtility.preventDefault(evt);
+		document.body.className = className;
+
+ so no matter the aElement we click on, this is going to happen(the desired function). which is making our code more flexible.
+Because we can add more aElements to the document by using innerHTML or using the DOM creation method (createElement) and we can add these elements to th page & if we want those to also change the style of the body, that's automatically done for us. because no matter what we click on, these 3 lines of codes will execute.
+
+var className = target.innerHTML.toLowerCase();
+		eventUtility.preventDefault(evt);
+		document.body.className = className;
+
+compare that with the code that we had ritten previously, we had gotten the aElement using the "getElementsByTagName" method. then we looped over that nodeList setting up each individual element with a clickEvent.(see below)
+
+for (var i = 0, len = buttons.length; i < len; i = i + 1) {
+	eventUtility.addEvent(buttons[i], "click", buttonClick);
+
+So if we added elements dynamically after setting up these events handlers, we would also have to setup those event handlers for the dynamically added elements.So we have essentially made more work for ourselves by doing it the old way(not using event delegation).
+So our code is more flexible in that way
+
+It is also more flexible in that if we want to keep the 3 line behavior(the 3 line code), but not also for aElement. 
+So let's do that for buttonElement as well.
+
+
+if (tagName === "A" || tagName === "BUTTON") 
+  
+Then any button within the document is going to behave the same way.(let's add a button in the HTML)
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName;
+
+	if (tagName === "A" || tagName === "BUTTON") {
+		var className = target.innerHTML.toLowerCase();
+		eventUtility.preventDefault(evt);
+		document.body.className = className;
+	}
+});
+
+}());
+
+
+
+
+So our code is flexible not only in that the dynamically created elements are subject to this event handler, but we can also add behavior to other elements easily. In this case we added the same bahavior to every button element without having to get those button  element & assigning an event handler for them.
+
+THe second gain is performance, because every event handler consumes memmory. So if we are assigning an event handler for every aElement & every button element & every other element that needs a click event, then we are consuming more & more memmory. While in our case, it isn't that big of a deal, because we only have a few elements that we want to listen for the click event.
+And large web applications, that is a problem. In fact, there are cases where web applications crash because so many elements were set up to have event handlers.
+So by using event delegation, you set up just a few event handlers, and then within those functions
+that execute we would basically do what we would normally do with an event handler. Except that we write the code to filter out behavior based upon the target of the event.
+There is a downside to event delegation & that our code 
+gets complex because we have to check the elements & we have to do something if the target is that particular type of element. And it gets even more tricky whenever we have an "A" element that we don't want to have the behavior of changing the style of the document.
+(so we just have a normal aElement).
+
+So let's add an aElement in our HTML & it will go to google.com once again.
+
+So we need to find some way to find a difference between the aELement that we want to use to change the background & the text color of the body & then the aElement that we want to behave like a normal aElement
+
+<a href="http://www.google.com">Normal</a>
+<a href="http://www.google.com">Changed</a>
+
+TO BE HONEST, THE ABOVE CODE IS A HORRIBLE DESIGN to begin with. Getting the innerHtml of an element (Normal) & using that as a clasName, that's just asking for something to go wrong.
+a better approach will be to use a custom attribute, assign the className that we want to use to that attribute & then use that attribute's value whenever we want to set a className. (That could also be the difference between an ELEMENT that we want to use to change the bodyStyle to any other normal ELEMENT)
+
+Since HTML5 is comming & we have the ability to use data-attributes, we will use the data-attributes naming scheme Which incoporates the use of "data-" & then whatever that we want to name this.E.g (data-body)
+
+
+So if you can get away with doing custom attributes to make your code & make your HTML a whole lot better, then go for it.
+
+so we will call this 
+
+<a data-body-class="normal" href="http://www.google.com">Change to Normal</a>
+
+ANd then we do kind of the same thing for thhe next aElement.
+
+Then we need to set the data-body-class for the button element.
+
+so we need to go back to our script & then if we need to get the value of this attribute.
+In the HTML, we can get rid of the google href & then put in "#" since they are designed not to go anywhere.
+
+In the code, we need to get the value of these attributes
+then we add the below code to our existing code
+
+classData = target.getAttribute("data-body-class");
+
+then all we need to do is to make sure the data variable is truthy, because if it is undefined, null or an empty string or anything like that, it is going to be falsy. So we can use it as a condition.(if it has a value, then this is going to be true, if it doesn't have a value, then it is going to be false).
+This way, we have ensured that any element that has a data-body-class attribute is going to have a truthy value. So we need to to get a className, which we already have. So we don't need a className variable.
+
+all we need to do is to prevent the default from occuring (preventDefault), change the body's class to classData.
+
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName;
+		classData = target.getAttribute("data-body-class");
+	
+	if (classData) {
+		eventUtility.preventDefault(evt);
+		document.body.className = classData;
+	}
+});
+
+}());
+
+
+
+In the browser, if we click on the aElements with "changed, the body style will change & if we click on the aElement that says "go to google", we will be taken to google.
+
+we can use the clickEvent rather exclusively & there is many other events that we can choose, So let's incoporate the use of another event called "mouseOver" event & that fires whenever you move your mouse point over an element eg(if we move our mouse over our google link, the mouseOver event will fire).
+
+So e will do the same thing with the mouseOver event, in that we change the style of the body whenever we move our mouse over one of the three elements that is designed to do that. 7hen we click on 1 of those element, we removed the class that was assigned to the body.
+
+in the HTML, we will change our normal class to the mouse over event. AND we get rid of the class that is assigned to the body. So we change the event that we want to handle from "click" to mouseOver.
+
+
+
+
+(function() {
+	
+eventUtility.addEvent(document, "click", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName,
+		classData = target.getAttribute("data-body-class");
+	
+	if (classData) {
+		eventUtility.preventDefault(evt);
+		document.body.className = "";
+	}
+});
+	
+eventUtility.addEvent(document, "mouseOver", function(evt) {
+	var target = eventUtility.getTarget(evt),
+		tagName = target.tagName,
+		classData = target.getAttribute("data-body-class");
+	
+	if (classData) {
+		eventUtility.preventDefault(evt);
+		document.body.className = classData;
+	}
+});
+
+}());
+
+
+A BETTER CODE
+we can use the same function to handle 2 different events whwnever we use event Delegation
+
+The 1st thing we need to do is to seperate out this function, so that it is a reusable function
+
+
+
+(function() {
+	
+var mouseHandler = function(evt) {
+	var target = eventUtility.getTarget(evt),
+		classData = target.getAttribute("data-body-class");
+	
+	if (classData) {
+		eventUtility.preventDefault(evt);
+		
+		if (evt.type === "click") {
+			document.body.className = "";
+		} else {
+			document.body.className = classData;
+		}
+	}
+};
+
+eventUtility.addEvent(document, "click", mouseHandler);
+eventUtility.addEvent(document, "mouseover", mouseHandler);
+
+}());
+
+
+It is a little bit more complex, but it allows us more flexiblity & it gives us a better performance than normal events.
+
+Now we are using 1 function & we have setup 2 event handlers. If we go to the browser & refresh, whenever we move our mouse over these links, you'll see the same exact behavior that we had before. If we click, then we remove the class from the body back to the normal state
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
